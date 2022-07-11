@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  python:
+    build:
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+    volumes:
+      - ./src/:/root/src/
+    tty: true
+    working_dir: /root/src
