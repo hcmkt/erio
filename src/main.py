@@ -1,9 +1,9 @@
 import re
 import os
-import requests
-from urllib.parse import urlparse, urljoin
-from bs4 import BeautifulSoup
 import functools
+from urllib.parse import urlparse, urljoin
+import requests
+from bs4 import BeautifulSoup
 
 class Class1():
     def __init__(self, jnap):
@@ -18,7 +18,10 @@ class Class1():
         return urlparse('//' + self.jnap).netloc
         
     def get_links(self):
-        response = requests.get('http://' + self.jnap)
+        try:
+            response = requests.get('https://' + self.jnap)
+        except:
+            return None
         soup = BeautifulSoup(response.content, 'html.parser')
         hrefs = set([a.get('href') for a in soup.find_all('a')])
         hrefs.discard(None)
@@ -51,7 +54,7 @@ class Class2():
         return True if jnap in self.searched_jnaps else False
 
 if __name__ == '__main__':
-    url = 'https://p-hone.info/'
+    url = 'https://google.com/'
     jnap = Class1.get_joined_netloc_and_path(url)
     c2 = Class2()
     c2.add_to_jnaps(jnap)
@@ -62,9 +65,12 @@ if __name__ == '__main__':
             continue
         c1 = Class1(jnap)
         links = c1.get_links()
+        if links is None:
+            continue
         while links:
             link = links.pop()
             c2.add_to_jnaps(link)
         c2.add_to_searched_jnaps(jnap)
         c2.add_to_netlocs(c1.get_netloc())
         print(list(map(len, [c2.jnaps, c2.searched_jnaps, c2.netlocs])))
+        

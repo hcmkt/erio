@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM mysql/mysql-server:8.0
 
 ENV TZ=Asia/Tokyo \
   LANG=ja_JP.UTF-8 \
@@ -12,5 +12,3 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && locale-gen ja_JP.UTF-8 \
   && localedef -f UTF-8 -i ja_JP ja_JP.UTF-8 \
-  && python3 -m pip install --upgrade pip \
-  && python3 -m pip install requests beautifulsoup4

@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   python:
     build:
       context: .
@@ -9,3 +10,8 @@ services:
       - ./src/:/root/src/
     tty: true
     working_dir: /root/src
+
+  mysql:
+    build:
+     context: .
+     dockerfile: ./docker/mysql/Dockerfile
